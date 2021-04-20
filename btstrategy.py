@@ -192,7 +192,7 @@ class BTStrategy(bt.Strategy):
             self.env.runstop()
 
     def stop(self):
-        final_reward = self.env.broker.get_value() - self.env.broker.startingcash - 1.1 * self.broker_stat['unrealized_pnl'][-1]
+        final_reward = self.env.broker.get_value() - self.env.broker.startingcash - 1.1 * numpy.abs(self.broker_stat['unrealized_pnl'][-1])
         self.stop_fn(final_reward)
 
     def get_state(self):

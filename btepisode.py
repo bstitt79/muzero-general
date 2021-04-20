@@ -77,7 +77,6 @@ class BTEpisode():
     def __init__(self, select_action_fn, stop_fn):
         self.select_action_fn = select_action_fn
         self.stop_fn = stop_fn
-        self._fig = None
 
     def _init_cerebro(self):
         start_cash = 1000000
@@ -126,9 +125,9 @@ class BTEpisode():
     def run(self):
         failing = True
         cerebro = self._init_cerebro()
+        ticker = numpy.random.choice(btdata.companies)
         
         while failing:
-            ticker = numpy.random.choice(btdata.companies)
 
             print("trying ", ticker)
             
@@ -145,15 +144,20 @@ class BTEpisode():
                 print(e)
                 failing = True
                 cerebro = self._init_cerebro()
+                ticker = numpy.random.choice(btdata.companies)
 
         start_cash = cerebro.broker.startingcash
         final_cash = cerebro.broker.getvalue()
         unrealized_pnl = result[0].broker_stat['unrealized_pnl'][-1]
 
-        # reward = result[0].reward
-        # print("finished, reward: ", reward)
+        reward = result[0].reward
+        print("finished", ticker, ", final reward: ", reward)
+        # this doesn't get used
         reward = (final_cash - start_cash - 1.1 * numpy.abs(unrealized_pnl)) / start_cash
 
-        self._fig = cerebro.plot(style='line')[0][0]
+        fig = cerebro.plot(style='line')[0][0]
+        fig.set_size_inches(18,18)
+        fig.savefig('plot.png', bbox_inches='tight', dpi=fig.dpi)
+        display(Image(filename='plot.png'))
 
         return reward
