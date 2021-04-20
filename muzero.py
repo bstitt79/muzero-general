@@ -667,7 +667,7 @@ if __name__ == "__main__":
                 muzero.terminate_workers()
                 del muzero
                 budget = 100
-                parallel_experiments = 1
+                parallel_experiments = 2
                 # lr_init = nevergrad.p.Log(lower=0.0001, upper=0.1)
                 # discount = nevergrad.p.Log(lower=0.95, upper=0.9999)
                 parametrization = nevergrad.p.Dict(

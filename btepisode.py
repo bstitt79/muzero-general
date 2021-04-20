@@ -81,8 +81,8 @@ class BTEpisode():
     def _init_cerebro(self):
         start_cash = 1000000
         drawdown_call = 90
-        commission = .0001 # = .01%
-        slip_perc = 0.0 # 0.001 = .1%
+        commission = .01 # = .01%
+        slip_perc = 0.00007 # 0.001 = .1%
         drawdown_amount = drawdown_call * start_cash / 100
         max_orders = 5
         order_price = drawdown_amount / max_orders
