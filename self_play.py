@@ -115,18 +115,12 @@ class SelfPlay:
         """
         game_history = GameHistory()
         
-        # observation = self.game.reset()
         self.tmp_observation = self.game.reset()
         self.tmp_action = 0
         self.tmp_reward = 0
         self.tmp_to_play = self.game.to_play()
         self.tmp_search_stats = None
         # should be one less search stat than all rest
-
-        # game_history.action_history.append(0) # this is a side effect of game reset
-        # game_history.observation_history.append(observation)
-        # game_history.reward_history.append(0) # this is a side effect of game reset
-        # game_history.to_play_history.append(self.game.to_play())
 
         done = False
 
@@ -178,11 +172,7 @@ class SelfPlay:
                     opponent, stacked_observations
                 )
 
-            # observation, reward, done = self.game.step(action)
-
             self.tmp_action = action
-            # self.tmp_observation = observation
-            # self.tmp_reward = reward
             self.tmp_to_play = self.game.to_play()
             self.tmp_search_stats = root, self.config.action_space
 

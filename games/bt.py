@@ -42,7 +42,6 @@ class MuZeroConfig:
         self.pb_c_init = 1.25
 
 
-
         ### Network
         self.network = "fullyconnected"  # "resnet" / "fullyconnected"
         self.support_size = 10  # Value and reward are scaled (with almost sqrt) and encoded on a vector with a range of -support_size to support_size. Choose it so that support_size <= sqrt(max(abs(discounted reward)))
@@ -86,7 +85,6 @@ class MuZeroConfig:
         self.lr_decay_steps = 1000
 
 
-
         ### Replay Buffer
         self.replay_buffer_size = 500  # Number of self-play games to keep in the replay buffer
         self.num_unroll_steps = 10  # Number of game moves to keep for every batch element
@@ -97,8 +95,6 @@ class MuZeroConfig:
         # Reanalyze (See paper appendix Reanalyse)
         self.use_last_model_value = True  # Use the last model to provide a fresher, stable n-step value (See paper appendix Reanalyze)
         self.reanalyse_on_gpu = False
-
-
 
         ### Adjust the self play / training ratio to avoid over/underfitting
         self.self_play_delay = 0  # Number of seconds to wait after each played game

@@ -120,7 +120,7 @@ class BTEpisode():
         else:
             self._fig.set_size_inches(18,18)
             self._fig.savefig('plot.png', bbox_inches='tight', dpi=fig.dpi)
-            display(Image(filename='plot.png'))
+            # display(Image(filename='plot.png'))
 
     def run(self):
         failing = True
@@ -158,6 +158,6 @@ class BTEpisode():
         fig = cerebro.plot(style='line')[0][0]
         fig.set_size_inches(18,18)
         fig.savefig('plot.png', bbox_inches='tight', dpi=fig.dpi)
-        display(Image(filename='plot.png'))
+        # display(Image(filename='plot.png'))
 
         return reward

@@ -485,8 +485,9 @@ def hyperparameter_search(
 
         num_tests (int): Number of games to average for evaluating an experiment.
     """
-    optimizer = nevergrad.optimizers.OnePlusOne(
-        parametrization=parametrization, budget=budget
+    optimizer = nevergrad.optimizers.TBPSA(
+        parametrization=parametrization, 
+        budget=budget
     )
 
     running_experiments = []
@@ -665,11 +666,23 @@ if __name__ == "__main__":
                 # Parametrization documentation: https://facebookresearch.github.io/nevergrad/parametrization.html
                 muzero.terminate_workers()
                 del muzero
-                budget = 20
-                parallel_experiments = 2
-                lr_init = nevergrad.p.Log(lower=0.0001, upper=0.1)
-                discount = nevergrad.p.Log(lower=0.95, upper=0.9999)
-                parametrization = nevergrad.p.Dict(lr_init=lr_init, discount=discount)
+                budget = 100
+                parallel_experiments = 1
+                # lr_init = nevergrad.p.Log(lower=0.0001, upper=0.1)
+                # discount = nevergrad.p.Log(lower=0.95, upper=0.9999)
+                parametrization = nevergrad.p.Dict(
+                  lr_init=nevergrad.p.Log(lower=0.0001, upper=0.1), 
+                  discount=nevergrad.p.Log(lower=0.95, upper=0.9999),
+                  stacked_observations=nevergrad.p.Log(lower=2, upper=500).set_integer_casting(),
+                  num_simulations=nevergrad.p.Log(lower=10, upper=100).set_integer_casting(),
+                  batch_size=nevergrad.p.Choice([16, 32, 64, 128, 256]),
+                  fc_dynamics_layers=nevergrad.p.Choice([[8], [8, 8], [16], [16, 16], [32], [32, 32], [64], [64, 64], [128], [128, 128], [256], [256, 256]]),
+                  fc_reward_layers=nevergrad.p.Choice([[8], [8, 8], [16], [16, 16], [32], [32, 32], [64], [64, 64], [128], [128, 128], [256], [256, 256]]),
+                  fc_value_layers=nevergrad.p.Choice([[8], [8, 8], [16], [16, 16], [32], [32, 32], [64], [64, 64], [128], [128, 128], [256], [256, 256]]),
+                  fc_policy_layers=nevergrad.p.Choice([[8], [8, 8], [16], [16, 16], [32], [32, 32], [64], [64, 64], [128], [128, 128], [256], [256, 256]]),
+                  weight_decay=nevergrad.p.Log(lower=1e-6, upper=1e-2),
+                  td_steps=nevergrad.p.Log(lower=1, upper=100).set_integer_casting()
+                  )
                 best_hyperparameters = hyperparameter_search(
                     game_name, parametrization, budget, parallel_experiments, 20
                 )
